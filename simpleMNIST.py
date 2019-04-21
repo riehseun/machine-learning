@@ -12,7 +12,7 @@ x = tf.placeholder(tf.float32, shape=[None, 784])
 y_ = tf.placeholder(tf.float32, [None, 10])
 
 # define weights and balances
-W = tf.Variables(tf.zeros([784, 10]))
+W = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10]))
 
 # define our model
