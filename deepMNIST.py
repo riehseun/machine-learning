@@ -99,11 +99,11 @@ end_time = time.time()
 
 for i in range(num_steps):
 	batch = mnist.train_batch(50)
-	train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob 0.5})
+	train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 
 	# periodic status display
 	if i%display_every == 0:
-		train_accuracy = accuracy.eval(feed_dict={x: batch[0], y_: batch[1], keep_prob 0.5})
+		train_accuracy = accuracy.eval(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 		end_time = time.time()
 		print("step {0}, elapsed time {1:.2f} seconds, training accuracy {2:.3f}%".format(i, end_time-start_time, train_accuracy*100))
 
