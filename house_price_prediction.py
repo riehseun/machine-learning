@@ -3,8 +3,8 @@
 import tensorflow as tf
 import numpy as np
 import math
-# import matplotlib.pyplot as plt
-# import matplotlib.animation as animation # import animation support
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation # import animation support
 
 # generate some house sizes b/t 1000 and 3500
 num_house = 160
@@ -16,6 +16,6 @@ np.random.seed(42)
 house_price = house_size * 100.0 + np.random.randint(low=20000, high=70000, size=num_house)
 
 # plot house vs size
-# plt.plot(house_size, house_price, "bx") # bx = blue x
-# plt.ylabel("Price")
-# plt.xlabel("Size")
+plt.plot(house_size, house_price, "bx") # bx = blue x
+plt.ylabel("Price")
+plt.xlabel("Size")
