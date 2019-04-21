@@ -43,7 +43,7 @@ for i in range(1000):
 # evaluate how well the model did. Do this by comparing digit with the highest probability in actual (y) and predicted (y_)
 correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-test_accuracy = sess.run(accuracy, feed_dict={x: mnist.test.images, y_: minst.test.labels})
+test_accuracy = sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels})
 print("Test Accuray: {0}%".format(test_accuracy * 100.0))
 
 sess.close()
