@@ -16,10 +16,10 @@ np.random.seed(42)
 house_price = house_size * 100.0 + np.random.randint(low=20000, high=70000, size=num_house)
 
 # plot house vs size
-plt.plot(house_size, house_price, "bx") # bx = blue x
-plt.ylabel("Price")
-plt.xlabel("Size")
-plt.show()
+#plt.plot(house_size, house_price, "bx") # bx = blue x
+#plt.ylabel("Price")
+#plt.xlabel("Size")
+#plt.show()
 
 # you need to normalize values to prevernt under/overflows
 def normalize(array):
@@ -74,6 +74,13 @@ with tf.Session() as sess:
 	display_every = 2
 	num_training_iter = 50
 
+	# calculate the number of lines to animation
+	fit_num_plots = math.floor(num_training_iter/display_every)
+	# add storage of factor and offset values from each epoch
+	fit_size_factor = np.zeros(fit_num_plots)
+	fit_price_offsets = np.zeros(fit_num_plots)
+	fit_plot_idx = 0
+
 	# keep iterating the training ata
 	for iteration in range(num_training_iter):
 
@@ -86,8 +93,31 @@ with tf.Session() as sess:
 			c = sess.run(tf_cost, feed_dict={tf_house_size: train_house_size_norm, tf_price: train_price_norm})
 			print("iteration #:", '%04d' % (iteration + 1), "cost=", "{:.9f}".format(c), \
 				"size_factor=", sess.run(tf_size_factor), "price_offset=", sess.run(tf_price_offset), '\n')
+			# save the fit size_factor and price_offset to allow animation of learning process
+			fit_size_factor[fit_plot_idx] = sess.run(tf_size_factor)
+			fit_price_offsets[fit_plot_idx] = sess.run(tf_price_offset)
+			fit_plot_idx = fit_plot_idx + 1
 
 	print("Optimization Finished!")
 	training_cost = sess.run(tf_cost, feed_dict={tf_house_size: train_house_size_norm, tf_price: train_price_norm})
 	print("Trained cost=", training_cost, "size_factor=", sess.run(tf_size_factor), "price_offset=", sess.run(tf_price_offset), '\n')
+
+	# plot of training and test data, and learned regression
+
+	# get values used to normalize data so we can denormalize data back to its original scale
+	train_house_size_mean = train_house_size.mean()
+	train_house_size_std = train_house_size.std()
+
+	train_price_mean = train_price.mean()
+	train_price_std = train_price.std()
+
+	# plot the graph
+
+
+
+
+
+
+
+
 
