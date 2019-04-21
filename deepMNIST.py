@@ -13,7 +13,7 @@ y_ = tf.placeholder(tf.float32, [None, 10])
 
 # change the MNIST input data from a list of values to a 28 pixel X 1 grayscale value cube
 # which the Convolution NN can use
-x_image = tf.reshape(x, [-1,29,28,1], name="x_image")
+x_image = tf.reshape(x, [-1,28,28,1], name="x_image")
 
 # define helper functions to create weights and biases variables, and convolutions, and pooling layers
 # we are using RELU as our activation function. These must be initialized to a small positive number
