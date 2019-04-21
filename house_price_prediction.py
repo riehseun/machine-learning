@@ -113,10 +113,18 @@ with tf.Session() as sess:
 
 	# plot the graph
 
+	plt.rcParams["figure.figsize"] = (10,8)
+	plt.figure()
+	plt.ylabel("Price")
+	plt.xlabel("Size (sq.ft)")
+	plt.plot(train_house_size, train_pricem, 'go', label='Training data')
+	plt.plot(test_house_size, test_house_price, 'mo', label='Testing data')
+	plt.plot(train_house_size_norm * train_house_size_std + train_house_size_mean,
+		(sess.run(tf_size_factor) * train_house_size_norm + sess.run(tf_price_offset)) * train_price_std + train_price_mean,
+		label='Learned Regression')
 
-
-
-
+	plt.legend(loc='upper left')
+	plt.show()
 
 
 
