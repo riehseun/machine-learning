@@ -61,7 +61,7 @@ tf_cost = tf.reduce_sum(tf.pow(tf_price_pred-tf_price, 2)) / (2*num_train_sample
 learning_rate = 0.1
 
 # define a gradient descent optimizer that will minimize the loss defined in the operation "cost"
-optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(tf.cost)
+optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(tf_cost)
 
 # initialize the variable
 init = tf.global_variables_initializer()
