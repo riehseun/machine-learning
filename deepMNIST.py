@@ -98,7 +98,7 @@ start_time = time.time()
 end_time = time.time()
 
 for i in range(num_steps):
-	batch = mnist.train_next_batch(50)
+	batch = mnist.train.next_batch(50)
 	train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 
 	# periodic status display
