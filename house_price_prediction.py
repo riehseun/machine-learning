@@ -148,7 +148,7 @@ with tf.Session() as sess:
 		line.set_ydata(np.zeros(shape=house_price.shape[0])) # set y's to 0
 		return line,
 
-	ani = animation.FuncAnimation(fig, animate, frames=np.arrange(0, fit_plot_idx), init_func=initAnim, interval=1000, blit=true)
+	ani = animation.FuncAnimation(fig, animate, frames=np.arange(0, fit_plot_idx), init_func=initAnim, interval=1000, blit=true)
 	plt.show()
 
 
