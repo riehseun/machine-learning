@@ -5,7 +5,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 mnist= input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 # using interative session makes it the default sessions so we do not need to pass sess
-sess = tf.InterativeSession()
+sess = tf.InteractiveSession()
 
 # define placeholders for MNIST input data
 x = tf.placeholder(tf.float32, shape=[None, 784])
