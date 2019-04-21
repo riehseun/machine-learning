@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.examples.tutorials.mnist import input_date
+from tensorflow.examples.tutorials.mnist import input_data
 
 # we use TF helper function to pull down data from MNIST site
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
