@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_date
 
 # we use TF helper function to pull down data from MNIST site
-mnist= input_data.read_data_sets("MNIST_data/", one_hot=True)
+mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 # x is placeholder for 28 x 28 image data
 x = tf.placeholder(tf.float32, shape=[None, 784])
