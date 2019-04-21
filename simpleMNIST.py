@@ -37,7 +37,7 @@ sess.run(init)
 
 # perfrom 1000 training steps
 for i in range(1000):
-	batch_xs batch_ys = mnist.train.next_batch(100) # get 100 random data points from data. batch xs = image, batch ys = digit(0-9) class
+	batch_xs, batch_ys = mnist.train.next_batch(100) # get 100 random data points from data. batch xs = image, batch ys = digit(0-9) class
 	sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys}) # do optimization with this data
 
 # evaluate how well the model did. Do this by comparing digit with the highest probability in actual (y) and predicted (y_)
