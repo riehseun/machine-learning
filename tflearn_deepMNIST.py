@@ -14,8 +14,8 @@ image_rows = 28
 image_cols = 28
 
 # reshape the training and test images to 28 x 28 x 1
-train_images = mnist.train.images.reshape(mnist.train.shape[0], image_rows, image_cols, 1)
-test_images = mnist.test.images.reshape(mnist.test.shape[0], image_rows, image_cols, 1)
+train_images = mnist.train.images.reshape(mnist.train.images.shape[0], image_rows, image_cols, 1)
+test_images = mnist.test.images.reshape(mnist.test.images.shape[0], image_rows, image_cols, 1)
 
 num_classes = 10
 keep_prob = 0.5 # fraction to keep (0-1.0)
