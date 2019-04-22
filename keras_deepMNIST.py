@@ -36,7 +36,7 @@ model = Sequential()
 model.add(Convolution2D(num_filters, conv_kernel_size[0], conv_kernel_size[1], border_mode='valid', input_shape=img_shape))
 
 # push through RELU activation
-model.add(Activation(''relu))
+model.add(Activation('relu'))
 # take results and run through max_pool
 model.add(MaxPooling2D(pool_size=max_pool_size))
 
