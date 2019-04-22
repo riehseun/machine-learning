@@ -42,7 +42,7 @@ test_house_size_norm = normalize(test_house_size)
 test_house_price_norm = normalize(test_house_price)
 
 # one value, one value out.
-input = tflearn.input_date(shape[None], name="InputData") # input data is a list of undefined length
+input = tflearn.input_data(shape[None], name="InputData") # input data is a list of undefined length
 linear = tflearn.layers.core.single_unit(input, activation='linear', name="Linear") # define a single neuran with linear activation
 
 # define the optimizer, metric we try to optimize, and how we calculate loss
