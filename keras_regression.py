@@ -38,7 +38,7 @@ test_house_size_norm = normalize(test_house_size)
 test_house_price_norm = normalize(test_house_price)
 
 # define a gradient descent optimizer that will minimize the loss defined in the operation "cost"
-optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(tf_cost)
+# optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(tf_cost)
 
 # define the NN for doing linear regression
 model = Sequential()
