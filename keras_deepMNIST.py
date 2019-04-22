@@ -45,3 +45,25 @@ model.add(Convolution2D(num_filters, conv_kernel_size[0], conv_kernel_size[1]))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=max_pool_size))
 
+# fully connected layer
+model.add(Flatten())
+model.add(Dense(128)) # fully connected layer in Keras
+model.add(Activation('relu'))
+
+# dropout some neurons to reducce overfitting
+model.add(Dropout(drop_prob))
+
+# readout layer
+model.add(Dense(num_classes))
+model.add(Activation('softmax'))
+
+# set loss and measurement, optimizer, and metric used to evaluate loss
+model.compile(loss='categorical_crossentropy', optimizer='adm', metrics=['accuracy'])
+
+# training settings
+batch_size = 2
+num_epoch = 2
+
+# fit the training data to the model. Nicely displays the time, loss, and validation accuracy on the test data
+model.fit(train_images, mnist.train.labels, batch_size=batch_size, nb_epoch=num_epoch,
+		verbose=1, validation_data=(test_images, mnist.test.labels))
