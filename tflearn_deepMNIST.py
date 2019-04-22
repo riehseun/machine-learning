@@ -52,4 +52,6 @@ network = regression(network, optimizer='adam', learning_rate=0.01, loss='catego
 # training
 num_epoch = 2 # number of times through the data
 model = tflearn.DNN(network, tensorboard_verbose=0) # for more info in tensorboard turn on tensorboard_verbose
-model.fit({'input': train_images}, {'target': mnist.train.labels}, n_epoch=num_epoch)
+model.fit({'input': train_images}, {'target': mnist.train.labels}, n_epoch=num_epoch,
+		validation_set=({'input': test_images}, {'target': mnist.test.labels}),
+		show metric=True, run_id='TFLearn_DeepMNIST')
