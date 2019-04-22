@@ -42,7 +42,7 @@ test_house_price_norm = normalize(test_house_price)
 
 # define the NN for doing linear regression
 model = Sequential()
-model.add(Dense(1, input_shape(1,), init='uniform', activation='linear'))
+model.add(Dense(1, input_shape=(1,), init='uniform', activation='linear'))
 model.compile(loss='mean_squared_error', optimizer='sgd') # loss and optimizer
 
 # fit/train the model
