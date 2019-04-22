@@ -36,3 +36,20 @@ network = max_pool_2d(network, 2)
 network = conv_2d(network, nb_filter=64, filter_size=3, activation='relu', regularizer='L2')
 # take results and run through max_pool
 network = max_pool_2d(network, 2)
+
+# fully connected layer
+network = fully_connected(network, 128, activation='tanh')
+
+# dropout some neurons to reduce overfitting
+network = dropout(network, keep_prob)
+
+# readout layer
+network = fully_connected(network, 10, activation='softmax')
+
+# set loss, measurement, optimizer
+network = regression(network, optimizer='adam', learning_rate=0.01, loss='categorical_crossentropy', name='target')
+
+# training
+num_epoch = 2 # number of times through the data
+model = tflearn.DNN(network, tensorboard_verbose=0) # for more info in tensorboard turn on tensorboard_verbose
+model.fit({'input': train_images}, {'target': mnist.train.labels}, n_epoch=num_epoch)
