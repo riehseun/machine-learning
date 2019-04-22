@@ -35,3 +35,13 @@ model = Sequential()
 # border_mode =value restricts convolution to only where the input and the filter fully overlap (i.e. not partial overlap)
 model.add(Convolution2D(num_filters, conv_kernel_size[0], conv_kernel_size[1], border_mode='valid', input_shape=img_shape))
 
+# push through RELU activation
+model.add(Activation(''relu))
+# take results and run through max_pool
+model.add(MaxPooling2D(pool_size=max_pool_size))
+
+# 2nd convolutionn layer
+model.add(Convolution2D(num_filters, conv_kernel_size[0], conv_kernel_size[1]))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=max_pool_size))
+
