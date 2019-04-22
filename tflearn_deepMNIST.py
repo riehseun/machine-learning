@@ -5,10 +5,10 @@ from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 import tflearn
-from tflean.layers.core import input_data, dropout, fully_connected
-from tflean.layers.conv import conv_2d, max_pool_2d
-from tflean.layers.normalization import local_response_normalization
-from tflean.layers.estimator import regression
+from tflearn.layers.core import input_data, dropout, fully_connected
+from tflearn.layers.conv import conv_2d, max_pool_2d
+from tflearn.layers.normalization import local_response_normalization
+from tflearn.layers.estimator import regression
 
 image_rows = 28
 image_cols = 28
