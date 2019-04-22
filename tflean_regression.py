@@ -48,3 +48,15 @@ linear = tflearn.layers.core.single_unit(input, activation='linear', name="Linea
 # define the optimizer, metric we try to optimize, and how we calculate loss
 reg = tflearn.regression(linear, optimizer='sgd', loss='mean_square', metric='R2', learning_rate=0.01, name='regression') # set the learning rate, default is off
 
+# define the model
+model = tflearn.DNN(reg)
+
+# traing the model with training data
+model.fit(train_house_size_norm, train_price_norm, n_epoch=1000)
+
+print("Training complete")
+# output W and b for the trained linear equation
+print(" Weights: W={0}, b={1}\n".format(model.get_weights(linear.W), model.get_weights(linear.b)))
+
+# evaluate accuracy
+print(" Accuracy {0} ".format(model.evaluate(test_house_size_norm, test_house_price_norm)))
