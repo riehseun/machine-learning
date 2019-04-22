@@ -18,7 +18,7 @@ def variable_summaries(var):
 		tf.summary.histogram('histogram', var)
 
 # create input object which reads data from MNIST datasets. Perform one-hot encoding to define the digit
-mnist= input_data.read_data_sets("MNIST_data/", one_hot=True)
+mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 # using interative session makes it the default sessions so we do not need to pass sess
 sess = tf.InteractiveSession()
@@ -57,27 +57,41 @@ def max_pool_2x2(x, name=None):
 # 1st convolution layer
 with tf.name_scope('Conv1'):
 	# 32 features for each 5x5 patch of the image
-	W_conv1 = weight_variable([5,5,1,32], name="weight")
-	b_conv1 = bias_variable([32], name="bias")
+	with tf.name_scope("weight"):
+		W_conv1 = weight_variable([5,5,1,32], name="weight")
+		variable_summaries(W_conv1)
+	with tf.name_scope("biases"):
+		b_conv1 = bias_variable([32], name="bias")
+		variable_summaries(b_conv1)
 	# do convolution on images, add bias and push through RELU activation
-	h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1, name="relu")
+	conv1_wx_b = conv2d(x_image, W_conv1, name="conv2d") + b_conv1
+	tf.summary.histogram('conv1_wx_b', conv1_wx_b)
+	h_conv1 = tf.nn.relu(conv1_wx_b, name="relu")
+	tf.summary.histogram('h_conv1', h_conv1)
 	# take results and run through max_pool
 	h_pool1 = max_pool_2x2(h_conv1, name="pool")
 
 # 2nd convolution layer
 with tf.name_scope('Conv2'):
 	# process the 32 features from convolution layer 1, in 5 x 5 patch. Return 64 features weights and biases
-	W_conv2 = weight_variable([5,5,32,64], name="weight")
-	b_conv2 = bias_variable([64], name="bias")
+	with tf.name_scope("weight"):
+		W_conv2 = weight_variable([5,5,32,64], name="weight")
+		variable_summaries(W_conv2)
+	with tf.name_scope("biases"):
+		b_conv2 = bias_variable([64], name="bias")
+		variable_summaries(b_conv2)
 	# do convolution of output of 1st convolution layer. Rool results
-	h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2, name="relu")
+	conv2_wx_b = conv2d(h_pool1, W_conv2, name="conv2d") + b_conv2
+	tf.summary.histogram('conv2_wx_b', conv2_wx_b)
+	h_conv2 = tf.nn.relu(conv2_wx_b, name="relu")
+	tf.summary.histogram('h_conv2', h_conv2)
+	# take results and run through max_pool
 	h_pool2 = max_pool_2x2(h_conv2, name="pool")
 
 with tf.name_scope('FC'):
 	# fully connected layer
 	W_fc1 = weight_variable([7 * 7 * 64, 1024], name="weight")
 	b_fc1 = bias_variable([1024], name="bias")
-
 	# connect output of pooling layer 2 as input to full connected layer
 	h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
 	h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
