@@ -122,6 +122,12 @@ with tf.name_scope("accuracy"):
 	# how accurate is it?
 	accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
+tf.summary.scalar("cross_entropy", cross_entropy)
+tf.summary.scalar("training_accuracy", accuracy)
+
+# TB - merge summaries
+summarize_all = tf.summary.merge_all()
+
 # initialize all of the variables
 sess.run(tf.global_variables_initializer())
 
@@ -141,13 +147,15 @@ end_time = time.time()
 
 for i in range(num_steps):
 	batch = mnist.train.next_batch(50)
-	train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
+	_, summary = sess.run([train_step, summarize_all], feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 
 	# periodic status display
 	if i%display_every == 0:
 		train_accuracy = accuracy.eval(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 		end_time = time.time()
 		print("step {0}, elapsed time {1:.2f} seconds, training accuracy {2:.3f}%".format(i, end_time-start_time, train_accuracy*100))
+		# write summary to log
+		tbWriter.add_summary(summary,i)
 
 # display summary
 # time to train
