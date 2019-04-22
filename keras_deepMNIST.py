@@ -33,7 +33,7 @@ model = Sequential()
 # define layers in NN
 # define the 1st convolution layer. we use border_mode = and input_shape_only on first layer
 # border_mode =value restricts convolution to only where the input and the filter fully overlap (i.e. not partial overlap)
-model.add(Convolution2D(num_filters, conv_kernel_size[0], conv_kernel_size[1], border_mode='valid', input_shape=img_shape))
+model.add(Convolution2D(num_filters, conv_kernel_size[0], conv_kernel_size[1], border_mode='valid', input_shape=imag_shape))
 
 # push through RELU activation
 model.add(Activation('relu'))
