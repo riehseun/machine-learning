@@ -58,7 +58,7 @@ model.add(Dense(num_classes))
 model.add(Activation('softmax'))
 
 # set loss and measurement, optimizer, and metric used to evaluate loss
-model.compile(loss='categorical_crossentropy', optimizer='adm', metrics=['accuracy'])
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # training settings
 batch_size = 2
