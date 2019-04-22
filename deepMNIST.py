@@ -1,6 +1,9 @@
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
+# define path to TensorBoard log files
+logPath = "./tb_logs/"
+
 # create input object which reads data from MNIST datasets. Perform one-hot encoding to define the digit
 mnist= input_data.read_data_sets("MNIST_data/", one_hot=True)
 
@@ -8,12 +11,14 @@ mnist= input_data.read_data_sets("MNIST_data/", one_hot=True)
 sess = tf.InteractiveSession()
 
 # define placeholders for MNIST input data
-x = tf.placeholder(tf.float32, shape=[None, 784])
-y_ = tf.placeholder(tf.float32, [None, 10])
+with tf.name_scope("MNIST_Input"):
+	x = tf.placeholder(tf.float32, shape=[None, 784], name="x")
+	y_ = tf.placeholder(tf.float32, [None, 10], name="y_")
 
 # change the MNIST input data from a list of values to a 28 pixel X 1 grayscale value cube
 # which the Convolution NN can use
-x_image = tf.reshape(x, [-1,28,28,1], name="x_image")
+with tf.name_scope("input_reshape"):
+	x_image = tf.reshape(x, [-1,28,28,1], name="x_image")
 
 # define helper functions to create weights and biases variables, and convolutions, and pooling layers
 # we are using RELU as our activation function. These must be initialized to a small positive number
@@ -39,7 +44,7 @@ def max_pool_2x2(x, name=None):
 with tf.name_scope('Conv1'):
 	# 32 features for each 5x5 patch of the image
 	W_conv1 = weight_variable([5,5,1,32], name="weight")
-	b_conv1 = bias_variable([32] name="bias")
+	b_conv1 = bias_variable([32], name="bias")
 	# do convolution on images, add bias and push through RELU activation
 	h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1, name="relu")
 	# take results and run through max_pool
@@ -48,16 +53,16 @@ with tf.name_scope('Conv1'):
 # 2nd convolution layer
 with tf.name_scope('Conv2'):
 	# process the 32 features from convolution layer 1, in 5 x 5 patch. Return 64 features weights and biases
-	W_conv2 = weight_variable([5,5,32,64])
-	b_conv2 = bias_variable([64])
+	W_conv2 = weight_variable([5,5,32,64], name="weight")
+	b_conv2 = bias_variable([64], name="bias")
 	# do convolution of output of 1st convolution layer. Rool results
-	h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
-	h_pool2 = max_pool_2x2(h_conv2)
+	h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2, name="relu")
+	h_pool2 = max_pool_2x2(h_conv2, name="pool")
 
 with tf.name_scope('FC'):
 	# fully connected layer
-	W_fc1 = weight_variable([7 * 7 * 64, 1024])
-	b_fc1 = bias_variable([1024])
+	W_fc1 = weight_variable([7 * 7 * 64, 1024], name="weight")
+	b_fc1 = bias_variable([1024], name="bias")
 
 	# connect output of pooling layer 2 as input to full connected layer
 	h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
@@ -69,32 +74,37 @@ h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 
 with tf.name_scope('Readout'):
 	# readout layer
-	W_fc2 = weight_variable([1024, 10])
-	b_fc2 = bias_variable([10])
+	W_fc2 = weight_variable([1024, 10], name="weight")
+	b_fc2 = bias_variable([10], name="bias")
 
 # define model
 y_conv = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
 
 # loss measurement
-cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=y_conv, labels=y_))
+with tf.name_scope("cross_entropy"):
+	cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=y_conv, labels=y_))
 
 # loss optimization
-train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
+with tf.name_scope("loss_optimizer"):
+	train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
 
-# what is correct
-correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y_,1))
-
-# how accurate is it?
-accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+with tf.name_scope("accuracy"):
+	# what is correct
+	correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y_,1))
+	# how accurate is it?
+	accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 # initialize all of the variables
 sess.run(tf.global_variables_initializer())
+
+# TB - Write the default graph out so we can view its structure
+tbWriter = tf.summary.FileWriter(logPath, sess.graph)
 
 # train the model
 import time
 
 # define number of steps and how often we display progress
-num_steps = 3000
+num_steps = 2000
 display_every = 100
 
 # start timer
