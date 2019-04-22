@@ -36,7 +36,7 @@ def max_pool_2x2(x, name=None):
 # define layers in NN
 
 # 1st convolution layer
-with tf.name_scope('Conv1')
+with tf.name_scope('Conv1'):
 	# 32 features for each 5x5 patch of the image
 	W_conv1 = weight_variable([5,5,1,32], name="weight")
 	b_conv1 = bias_variable([32] name="bias")
@@ -46,7 +46,7 @@ with tf.name_scope('Conv1')
 	h_pool1 = max_pool_2x2(h_conv1, name="pool")
 
 # 2nd convolution layer
-with tf.name_scope('Conv2')
+with tf.name_scope('Conv2'):
 	# process the 32 features from convolution layer 1, in 5 x 5 patch. Return 64 features weights and biases
 	W_conv2 = weight_variable([5,5,32,64])
 	b_conv2 = bias_variable([64])
@@ -54,7 +54,7 @@ with tf.name_scope('Conv2')
 	h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
 	h_pool2 = max_pool_2x2(h_conv2)
 
-with tf.name_scope('FC')
+with tf.name_scope('FC'):
 	# fully connected layer
 	W_fc1 = weight_variable([7 * 7 * 64, 1024])
 	b_fc1 = bias_variable([1024])
@@ -67,7 +67,7 @@ with tf.name_scope('FC')
 keep_prob = tf.placeholder(tf.float32) # get dropout probability as a training input
 h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 
-with tf.name_scope('Readout')
+with tf.name_scope('Readout'):
 	# readout layer
 	W_fc2 = weight_variable([1024, 10])
 	b_fc2 = bias_variable([10])
