@@ -4,6 +4,19 @@ from tensorflow.examples.tutorials.mnist import input_data
 # define path to TensorBoard log files
 logPath = "./tb_logs/"
 
+# adds summaries statistics for use in TensorBoard visualization
+# from https://www.tensorflow.org/get_started/summaries_and_tensorboard
+def variable_summaries(var):
+	with tf.name_scope('summaries'):
+		mean = tf.reduce_mean(var)
+		tf.summary.scalar('mean', mean)
+		with tf.name_scope('stddev'):
+			stddev = tf.sqrt(tf.reduce_mean(tf.square(var - mean)))
+		tf.summary.scalar('stddev', stddev)
+		tf.summary.scalar('max', tf.reduce_max(var))
+		tf.summary.scalar('min', tf.reduce_min(var))
+		tf.summary.histogram('histogram', var)
+
 # create input object which reads data from MNIST datasets. Perform one-hot encoding to define the digit
 mnist= input_data.read_data_sets("MNIST_data/", one_hot=True)
 
@@ -19,6 +32,7 @@ with tf.name_scope("MNIST_Input"):
 # which the Convolution NN can use
 with tf.name_scope("input_reshape"):
 	x_image = tf.reshape(x, [-1,28,28,1], name="x_image")
+	tf.summary.image('input_img', x_image, 5)
 
 # define helper functions to create weights and biases variables, and convolutions, and pooling layers
 # we are using RELU as our activation function. These must be initialized to a small positive number
