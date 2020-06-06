@@ -1,6 +1,6 @@
 # Machine Learning
 
-All materials is from
+All materials are from
 
 https://www.deeplearning.ai/deep-learning-specialization/
 
