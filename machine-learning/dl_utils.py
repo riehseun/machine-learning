@@ -1,6 +1,7 @@
 import numpy as np
 import h5py
 import matplotlib.pyplot as plt
+import scipy.io
 
 
 def load_dataset(train_set_location, test_set_location):
@@ -57,6 +58,19 @@ def load_planar_dataset():
     Y = Y.T
 
     return X, Y
+
+
+def load_2D_dataset():
+    data = scipy.io.loadmat('datasets/data.mat')
+    train_X = data['X'].T
+    train_Y = data['y'].T
+    test_X = data['Xval'].T
+    test_Y = data['yval'].T
+
+    reshaped_Y = train_Y.reshape(train_Y.shape[1])
+    plt.scatter(train_X[0, :], train_X[1, :], c=reshaped_Y, s=40, cmap=plt.cm.Spectral);
+    
+    return train_X, train_Y, test_X, test_Y
 
 
 def plot_decision_boundary(model, X, y):
